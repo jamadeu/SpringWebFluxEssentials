@@ -10,13 +10,7 @@ import reactor.core.publisher.Mono
 class AnimeService(
     val animeRepository: AnimeRepository
 ) {
-    fun findAll(): Flux<Anime> {
-        return animeRepository.findAll()
-    }
+    fun findAll(): Flux<Anime> = animeRepository.findAll()
 
-    fun findById(id: Long): Mono<Anime> {
-        return animeRepository.findById(id)
-    }
-
-
+    fun findById(id: Long): Mono<Anime> = animeRepository.findById(id)
 }
