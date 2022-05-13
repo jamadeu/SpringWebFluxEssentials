@@ -1,16 +1,16 @@
 package br.com.jamadeu.spring.web.flux.controller
 
 import br.com.jamadeu.spring.web.flux.model.Anime
+import br.com.jamadeu.spring.web.flux.model.dto.CreateAnimeRequest
+import br.com.jamadeu.spring.web.flux.model.dto.UpdateAnimeRepository
 import br.com.jamadeu.spring.web.flux.service.AnimeService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("animes")
@@ -29,4 +29,16 @@ class AnimeController(
         animeService.findById(id)
             .switchIfEmpty(Mono.error(ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found")))
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun create(@Valid @RequestBody request: CreateAnimeRequest): Mono<Anime> = animeService.save(request.toAnime())
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun update(@PathVariable("id") id: Long, @Valid @RequestBody request: UpdateAnimeRepository): Mono<Void> =
+        animeService.update(request.toAnime(id))
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable("id") id: Long): Mono<Void> = animeService.delete(id)
 }
