@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import kotlin.math.sin
 
 @Service
 class AnimeService(
@@ -19,7 +18,8 @@ class AnimeService(
         animeRepository.findById(id)
             .switchIfEmpty(Mono.error(ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found")))
 
-    fun save(anime: Anime): Mono<Anime> = animeRepository.save(anime)
+    fun save(anime: Anime): Mono<Anime> =
+        animeRepository.save(anime)
 
     fun update(anime: Anime): Mono<Void> =
         findById(anime.id)
