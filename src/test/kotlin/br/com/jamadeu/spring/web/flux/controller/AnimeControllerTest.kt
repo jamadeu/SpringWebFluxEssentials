@@ -23,7 +23,7 @@ internal class AnimeControllerTest {
     lateinit var animeController: AnimeController
 
     @Test
-    fun `findAll returns a flux of anime when successful`() {
+    fun `listAll returns a flux of anime when successful`() {
         val anime = anime()
         `when`(animeService.findAll()).thenReturn(Flux.just(anime))
 
